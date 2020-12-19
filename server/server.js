@@ -2,11 +2,11 @@ const express = require('express');
 
 const app = express();
 
-app.get('/api/v1/test', (req, res) => {
-  res.json({
-    data: 'You reached the test endpoint!',
-  });
-});
+// import routes
+const userRoutes = require('./routes/userRoutes');
+
+// middleware
+app.use('/api/v1/users', userRoutes);
 
 const port = process.env.PORT || 8000;
 
