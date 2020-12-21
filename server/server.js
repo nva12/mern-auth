@@ -1,11 +1,23 @@
 const express = require('express');
+const morgan = require('morgan');
+const cors = require('cors');
+const mongoose = require('mongoose');
+require('dotenv').config();
 
 const app = express();
 
 // import routes
 const userRoutes = require('./routes/userRoutes');
 
-// middleware
+// app middleware
+app.use(morgan('dev'));
+// app.use(cors()); // allow all origins
+if ((process.env.NODE_ENV = 'development')) {
+  app.use(cors({ origin: `http://localhost:3000` }));
+}
+app.use(express.json());
+
+// route middleware
 app.use('/api/v1/users', userRoutes);
 
 const port = process.env.PORT || 8000;
