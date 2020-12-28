@@ -65,10 +65,50 @@ exports.signupUser = (req, res) => {
         console.log('Signup email sent.');
         return res.json({
           message: `Email has been sent to ${email}. Follow the instructions to activate your account.`,
+          token: token,
         });
       })
       .catch((err) => {
         console.log('Error sending account activation email.');
       });
   });
+};
+
+exports.activateUserAccount = (req, res) => {
+  const { token } = req.body;
+
+  if (token) {
+    jwt.verify(
+      token,
+      process.env.JWT_ACCOUNT_ACTIVATION,
+      function (err, decodedToken) {
+        if (err) {
+          console.log('Error verifying JWT for account activation.');
+          return res.status(401).json({
+            error: 'Expired link. Please sign up again.',
+          });
+        }
+
+        const { name, email, password } = jwt.decode(token);
+
+        let newUser = new User({ name, email, password });
+
+        newUser.save((err, success) => {
+          if (err) {
+            console.log('Error saving user in database: ', err);
+            return res.status(401).json({
+              error: err,
+            });
+          }
+          return res.json({
+            message: 'Successfully signed up user. Please sign in.',
+          });
+        });
+      }
+    );
+  } else {
+    return res.json({
+      message: 'Invalid token.',
+    });
+  }
 };
