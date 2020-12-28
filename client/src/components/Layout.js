@@ -1,10 +1,11 @@
 import React, { Fragment } from 'react';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   return (
     <header>
       <nav>
-        <a href='/'>Home</a>
+        <Link href='/'>Home</Link>
       </nav>
     </header>
   );
