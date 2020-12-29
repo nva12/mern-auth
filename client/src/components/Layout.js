@@ -10,9 +10,25 @@ const Header = () => {
           <li>
             <Link to='/signup'>Sign Up</Link>
           </li>
+          <li>
+            <Link to='/signin'>Sign In</Link>
+          </li>
         </ul>
       </nav>
+      <h1>MERN app boilerplate with user authentication</h1>
+      <hr />
     </header>
+  );
+};
+
+const Footer = () => {
+  return (
+    <footer>
+      <hr />
+      <p>
+        <small>&copy; 2020 Nicolas Vallée</small>
+      </p>
+    </footer>
   );
 };
 
@@ -21,6 +37,7 @@ const Layout = ({ children }) => {
     <Fragment>
       <Header />
       <main>{children}</main>
+      <Footer />
     </Fragment>
   );
 };
