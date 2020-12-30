@@ -1,25 +1,5 @@
 import React, { Fragment } from 'react';
-import { Link } from 'react-router-dom';
-
-const Header = () => {
-  return (
-    <header>
-      <nav>
-        <Link to='/'>Home</Link>
-        <ul>
-          <li>
-            <Link to='/signup'>Sign Up</Link>
-          </li>
-          <li>
-            <Link to='/signin'>Sign In</Link>
-          </li>
-        </ul>
-      </nav>
-      <h1>MERN app boilerplate with user authentication</h1>
-      <hr />
-    </header>
-  );
-};
+import Header from './Header';
 
 const Footer = () => {
   return (
