@@ -20,39 +20,52 @@ export const getCookie = (key) => {
   }
 };
 
-export const setLocalStorage = (key, value) => {
+export const setInLocalStorage = (key, value) => {
   if (window !== 'undefined') {
     localStorage.setItem(key, JSON.stringify(value));
   }
 };
 
-export const removeLocalStorage = (key) => {
+export const removeFromLocalStorage = (key) => {
   if (window !== 'undefined') {
     localStorage.removeItem(key);
   }
 };
 
+export const getFromLocalStorage = (key) => {
+  if (window !== 'undefined') {
+    JSON.parse(localStorage.getItem(key));
+  }
+};
+
 export const authenticateUser = (response, next) => {
-  setCookie('token', response.data.token);
-  setLocalStorage('user', response.data.user);
+  // setCookie('token', response.data.token);
+  setInLocalStorage('token', response.data.token);
+  setInLocalStorage('user', response.data.user);
   next();
 };
 
 export const isAuthenticated = () => {
   if (window !== 'undefined') {
-    const cookieChecked = getCookie('token');
-    if (cookieChecked) {
-      if (localStorage.getItem('user')) {
-        return JSON.parse(localStorage.getItem('user'));
-      } else {
-        return false;
-      }
+    // const cookieChecked = getCookie('token');
+    // if (cookieChecked) {
+    //   if (localStorage.getItem('user')) {
+    //     return JSON.parse(localStorage.getItem('user'));
+    //   } else {
+    //     return false;
+    //   }
+    // }
+    if (getFromLocalStorage('currentUser')) {
+      return getFromLocalStorage('currentUser');
+    } else {
+      return false;
     }
   }
 };
 
 export const signOutUser = (next) => {
-  removeCookie('token');
-  removeLocalStorage('user');
+  // removeCookie('token');
+  removeFromLocalStorage('token');
+  removeFromLocalStorage('user');
   next();
 };

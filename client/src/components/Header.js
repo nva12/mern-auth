@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { isAuthenticated, signOutUser } from '../utils/helpers';
+import { useAuthDispatch, signout, useAuthState } from '../context';
 
 const Header = () => {
   let history = useHistory();
@@ -9,6 +9,13 @@ const Header = () => {
     if (history.location.pathname === path) {
       return { pointerEvents: 'none', color: '#000' };
     }
+  };
+
+  const dispatch = useAuthDispatch();
+  const userDetails = useAuthState();
+
+  const handleSignout = () => {
+    signout(dispatch);
   };
 
   return (
@@ -21,19 +28,15 @@ const Header = () => {
               Home
             </Link>
           </li>
-          {isAuthenticated() ? (
+          {userDetails.user ? (
             <>
               <li>
-                <span>{isAuthenticated().name}</span>
+                <span>{userDetails.user.name}</span>
               </li>
               <li>
                 <Link
                   to='/'
-                  onClick={() =>
-                    signOutUser(() => {
-                      history.push('/');
-                    })
-                  }
+                  onClick={handleSignout}
                   style={{ cursor: 'pointer' }}
                 >
                   Sign Out
