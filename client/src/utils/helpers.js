@@ -50,3 +50,9 @@ export const isAuthenticated = () => {
     }
   }
 };
+
+export const signOutUser = (next) => {
+  removeCookie('token');
+  removeLocalStorage('user');
+  next();
+};

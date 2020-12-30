@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
+import { authenticateUser, isAuthenticated } from '../utils/helpers';
 
 const SignInScreen = () => {
   const [values, setValues] = useState({
@@ -28,15 +29,18 @@ const SignInScreen = () => {
       .then((response) => {
         console.log('Successfully signed in user', response);
 
-        setValues({
-          ...values,
-          email: '',
-          password: '',
-          buttonText: 'Submitted',
+        authenticateUser(response, () => {
+          setValues({
+            ...values,
+            email: '',
+            password: '',
+            buttonText: 'Submitted',
+          });
+
+          toast.success(
+            `Hello ${response.data.user.name}, you are now signed in!`
+          );
         });
-        toast.success(
-          `Hello ${response.data.user.name}, you are now signed in!`
-        );
       })
       .catch((error) => {
         console.log('Error signing in user', error.response.data.error);
@@ -51,11 +55,12 @@ const SignInScreen = () => {
   return (
     <section>
       <ToastContainer />
+      {isAuthenticated() && <Redirect to='/' />}
       <form onSubmit={handleSubmit}>
         <header>
           <h2>Sign In</h2>
         </header>
-        <label for='email'>Email:</label>
+        <label htmlFor='email'>Email:</label>
         <input
           type='email'
           id='email'
@@ -64,7 +69,7 @@ const SignInScreen = () => {
           placeholder='Email'
           onChange={handleChange('email')}
         />
-        <label for='password'>Password:</label>
+        <label htmlFor='password'>Password:</label>
         <input
           type='password'
           id='password'

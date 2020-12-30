@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
+import { isAuthenticated } from '../utils/helpers';
 
 const SignUpScreen = () => {
   const [values, setValues] = useState({
@@ -50,11 +51,12 @@ const SignUpScreen = () => {
   return (
     <section>
       <ToastContainer />
+      {isAuthenticated() && <Redirect to='/' />}
       <form onSubmit={handleSubmit}>
         <header>
           <h2>Sign Up</h2>
         </header>
-        <label for='name'>Name:</label>
+        <label htmlFor='name'>Name:</label>
         <input
           type='text'
           id='name'
@@ -63,7 +65,7 @@ const SignUpScreen = () => {
           placeholder='Name'
           onChange={handleChange('name')}
         />
-        <label for='email'>Email:</label>
+        <label htmlFor='email'>Email:</label>
         <input
           type='email'
           id='email'
@@ -72,7 +74,7 @@ const SignUpScreen = () => {
           placeholder='Email'
           onChange={handleChange('email')}
         />
-        <label for='password'>Password:</label>
+        <label htmlFor='password'>Password:</label>
         <input
           type='password'
           id='password'
