@@ -39,7 +39,7 @@ const SignInScreen = () => {
         );
       })
       .catch((error) => {
-        console.log('Error signing in user', error.response.data);
+        console.log('Error signing in user', error.response.data.error);
         setValues({
           ...values,
           buttonText: 'Submit',

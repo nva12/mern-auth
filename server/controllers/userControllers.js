@@ -53,8 +53,8 @@ exports.signupUser = (req, res) => {
       to: email,
       subject: `Account activation link`,
       html: `
-        <p>Please click on the following link to activate your account:</p>
-        <p><a href='${process.env.CLIENT_URL}/auth/activate/${token}'>Activate my account</a></p>
+        <p>Please click on the following link to verify your email address and activate your account:</p>
+        <p><a href='${process.env.CLIENT_URL}/activate-account/${token}'>Verify this email address</a></p>
         <hr/>
       `,
     };

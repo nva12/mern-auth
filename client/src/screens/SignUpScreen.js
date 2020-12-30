@@ -38,7 +38,7 @@ const SignUpScreen = () => {
         toast.success(response.data.message);
       })
       .catch((error) => {
-        console.log('Error signing up user', error.response.data);
+        console.log('Error signing up user', error.response.data.error);
         setValues({
           ...values,
           buttonText: 'Submit',
