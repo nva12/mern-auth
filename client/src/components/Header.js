@@ -5,13 +5,21 @@ import { isAuthenticated, signOutUser } from '../utils/helpers';
 const Header = () => {
   let history = useHistory();
 
+  const isActive = (path) => {
+    if (history.location.pathname === path) {
+      return { pointerEvents: 'none', color: '#000' };
+    }
+  };
+
   return (
     <header>
       <nav>
         <Link to='/'>Brand Logo</Link>
         <ul>
           <li>
-            <Link to='/'>Home</Link>
+            <Link to='/' style={isActive('/')}>
+              Home
+            </Link>
           </li>
           {isAuthenticated() ? (
             <>
@@ -19,7 +27,8 @@ const Header = () => {
                 <span>{isAuthenticated().name}</span>
               </li>
               <li>
-                <span
+                <Link
+                  to='/'
                   onClick={() =>
                     signOutUser(() => {
                       history.push('/');
@@ -28,16 +37,20 @@ const Header = () => {
                   style={{ cursor: 'pointer' }}
                 >
                   Sign Out
-                </span>
+                </Link>
               </li>
             </>
           ) : (
             <>
               <li>
-                <Link to='/signup'>Sign Up</Link>
+                <Link to='/signup' style={isActive('/signup')}>
+                  Sign Up
+                </Link>
               </li>
               <li>
-                <Link to='/signin'>Sign In</Link>
+                <Link to='/signin' style={isActive('/signin')}>
+                  Sign In
+                </Link>
               </li>
             </>
           )}
