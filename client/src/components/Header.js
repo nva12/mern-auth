@@ -12,7 +12,7 @@ const Header = () => {
   };
 
   const dispatch = useAuthDispatch();
-  const userDetails = useAuthState();
+  const auth = useAuthState();
 
   const handleSignout = () => {
     signout(dispatch);
@@ -28,10 +28,10 @@ const Header = () => {
               Home
             </Link>
           </li>
-          {userDetails.user ? (
+          {auth.userDetails ? (
             <>
               <li>
-                <span>{userDetails.user.name}</span>
+                <span>{auth.userDetails.name}</span>
               </li>
               <li>
                 <Link

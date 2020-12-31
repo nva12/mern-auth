@@ -29,7 +29,11 @@ const SignInScreen = () => {
 
       if (!response.user) return;
 
-      history.push('/');
+      if (response.user.role === 'admin') {
+        history.push('/admin');
+      } else {
+        history.push('/private');
+      }
     } catch (error) {
       console.log('Error signing in user', error);
     }
