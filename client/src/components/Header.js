@@ -18,6 +18,9 @@ const Header = () => {
     signout(dispatch);
   };
 
+  const userProfileLink =
+    auth.userDetails.role === 'admin' ? '/admin' : '/private';
+
   return (
     <header>
       <nav>
@@ -31,7 +34,9 @@ const Header = () => {
           {auth.userDetails ? (
             <>
               <li>
-                <span>{auth.userDetails.name}</span>
+                <Link to={userProfileLink} style={isActive(userProfileLink)}>
+                  {auth.userDetails.name}
+                </Link>
               </li>
               <li>
                 <Link
