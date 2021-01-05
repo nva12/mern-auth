@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const expressJwt = require('express-jwt');
 const sgMail = require('@sendgrid/mail');
 const User = require('../models/userModel');
 
@@ -154,3 +155,8 @@ exports.readUser = (req, res) => {
     res.json(user);
   });
 };
+
+exports.requireSignin = expressJwt({
+  secret: process.env.JWT_SECRET,
+  algorithms: ['sha1', 'RS256', 'HS256'],
+});
