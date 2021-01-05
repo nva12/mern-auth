@@ -8,6 +8,7 @@ const {
   signinUser,
   readUser,
   requireSignin,
+  updateUser,
 } = require('../controllers/userControllers');
 
 // import validators
@@ -21,5 +22,6 @@ router.post('/signup', userSignupValidator, validateRequest, signupUser);
 router.post('/account-activation', activateUserAccount);
 router.post('/signin', userSigninValidator, validateRequest, signinUser);
 router.get('/:id', requireSignin, readUser);
+router.put('/update', requireSignin, updateUser);
 
 module.exports = router;

@@ -5,6 +5,8 @@ const User = require('../models/userModel');
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
+// AUTHENTICATION
+
 // Sign up without email verification
 /* exports.signupUser = (req, res) => {
   const { name, email, password } = req.body;
@@ -143,6 +145,8 @@ exports.signinUser = (req, res) => {
   });
 };
 
+// USER PROFILE CRUD
+
 exports.readUser = (req, res) => {
   const userId = req.params.id;
 
@@ -160,3 +164,44 @@ exports.requireSignin = expressJwt({
   secret: process.env.JWT_SECRET,
   algorithms: ['sha1', 'RS256', 'HS256'],
 });
+
+exports.updateUser = (req, res) => {
+  const { name, password } = req.body;
+
+  User.findOne({ _id: req.user._id }, (err, user) => {
+    if (err || !user) {
+      return res.status(400).json({
+        error: 'User not found',
+      });
+    }
+    if (!name) {
+      return res.status(400).json({
+        error: 'Name is required',
+      });
+    } else {
+      user.name = name;
+    }
+    if (password) {
+      if (password.length < 6) {
+        return res.status(400).json({
+          error: 'Password must be at least 6 characters long',
+        });
+      } else {
+        user.password = password;
+      }
+    }
+
+    user.save((err, updatedUser) => {
+      if (err) {
+        console.log('User update error', err);
+        return res.status(400).json({
+          error: 'User update failed',
+        });
+      }
+      updatedUser.hashed_password = undefined;
+      updatedUser.salt = undefined;
+
+      res.json(updatedUser);
+    });
+  });
+};
